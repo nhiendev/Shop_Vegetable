@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fpoly.DAO.UserDAO;
 import com.fpoly.Entity.Users;
+import com.fpoly.Service.CookieService;
 import com.fpoly.Service.UserService;
 
 @Service
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserDAO dao;
 
+	@Autowired
+	CookieService cookieService;
+	
 	@Override
 	public List<Users> findAll() {
 		List<Users> listU = dao.findAll();
@@ -43,6 +47,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void delete(Integer us) {
 		dao.deleteById(us);
+	}
+
+	@Override
+	public Users getUserCookie() {
+		return dao.findByUsernameLike(cookieService.getValue("uName"));
 	}
 
 	

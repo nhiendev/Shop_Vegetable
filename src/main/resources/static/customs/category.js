@@ -64,7 +64,7 @@ app.controller("ctrl", function($scope, $http) {
 	$scope.delete = function(key) {
 		var url = `${host}/category/${key}`;
 		$http.delete(url).then(resp => {
-			var index = $scope.items.findIndex(item => item.id == id);
+			var index = $scope.items.findIndex(item => item.id == key);
 			$scope.items.splice(index, 1);
 			$scope.load_all();
 			$scope.reset();

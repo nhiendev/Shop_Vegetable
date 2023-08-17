@@ -1,5 +1,7 @@
 package com.fpoly.Service.impl;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,19 +51,32 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
-	public Boolean Login(Users us) {
+	public void Login(Users us) {
 		Users u = dao.findByUsernameLike(us.getUsername().trim());
-
 		if (u != null ) {
 			Boolean checkPass = pe.matches(us.getPassword(), u.getPassword()); 
 			//us -> password user nhập vào : u -> password user trong DB đã hash
 			if (u.getUsername().equals(us.getUsername()) && checkPass == true) {
 				// sessionService.set("user", u);
-				cookie.add("uName", u.getUsername(), 10);
-				cookie.add("uPass", u.getPassword(), 10);
-				return true;
+				try {
+					cookie.add("uName", u.getUsername(), 10);
+					cookie.add("uPass", u.getPassword(), 10);
+				} catch (Exception e) {
+					System.out.println("add cookie khong thanh cong");
+				}
+				
 			}
 		}
-		return false;
+	}
+
+	@Override
+	public void Logout() {
+		try {
+			cookie.remove("uName");
+			cookie.remove("uPass");
+		} catch (Exception e) {
+			System.out.println("remove cookie khong thanh cong");
+		}
+		
 	}
 }

@@ -29,9 +29,10 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     
      <script th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js}"></script>
-    <script th:src="@{/front-endJS/checkout.js}"></script> 
+    <script th:src="@{/front-endJS/shopProduct.js}"></script> 
+      <script th:src="@{/front-endJS/orderByUser.js}"></script> 
   </head>
-  <body  class="goto-here" ng-app="appCheckOut">
+  <body  class="goto-here" ng-app="app" ng-controller="ctrl" >
 	<nav th:insert="~{nav.html::navbar}"></nav>
     <!-- END nav -->
 
@@ -39,112 +40,64 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Checkout</span></p>
-            <h1 class="mb-0 bread">Checkout</h1>
+          	<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Order</span></p>
+            <h1 class="mb-0 bread">My Order</h1>
           </div>
         </div>
       </div>
     </div>
 
-    <section class="ftco-section">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-xl-7 ftco-animate">
-						<form action="#" class="billing-form">
-							<h3 class="mb-4 billing-heading">Billing Details</h3>
-	          	<div class="row align-items-end">
-	          		<div class="col-md-12">
-	                <div class="form-group">
-	                	<label for="firstname">Full Name</label>
-	                  <input th:value="${user.fullname}" class="form-control" placeholder="">
-	                </div>
-	              </div>
-	             
-	             <div class="col-md-12">
-	                <div class="form-group">
-	                	<label for="firstname">Address</label>
-	                  <input  id="address"  type="text" class="form-control">
-	                </div>
-	              </div>
-	             
-                <div class="w-100"></div>
-		            <div class="col-md-6">
-	                <div class="form-group">
-	                	<label for="phone">Phone</label>
-	                  <input th:value="${user.phone}" class="form-control" >
-	                </div>
-	              </div>
-	              <div class="col-md-6">
-	                <div class="form-group">
-	                	<label for="emailaddress">Email </label>
-	                  <input th:value="${user.email}" class="form-control" >
-	                </div>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-md-12">
-                	<div class="form-group mt-4">
-										<div class="radio">
-										  <label class="mr-3"><input type="radio" name="optradio"> Create an Account? </label>
-										  <label><input type="radio" name="optradio"> Ship to different address</label>
-										</div>
-									</div>
-                </div>
-	            </div>
-	          </form><!-- END -->
-					</div>
-					<div class="col-xl-5">
-	          <div class="row mt-5 pt-3" ng-controller="cart">
-	          	<div class="col-md-12 d-flex mb-5">
-	          		<div class="cart-detail cart-total p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Cart Total</h3>
-	          			<p class="d-flex" ng-repeat="product in cart.Product">
-		    						<span> <img alt="" style="height: 50px" ng-src="/images/{{product.img}}">  </span>
-		    						<span >  {{product.name}} </span>
-		    						<span class="text-danger"> {{product.price }} $</span>
-		    						<span> {{product.qty}} </span>
-		    					</p>
-		    					
-		    					
-		    					<hr>
-		    					<p class="d-flex total-price">
-		    						<span>Total:</span>
-		    						<span style="color: red">{{cart.amount}} $</span>
-		    					</p>
-								</div>
-	          	</div>
-	          	<div class="col-md-12">
-	          		<div class="cart-detail p-3 p-md-4">
-	          			<h3 class="billing-heading mb-4">Payment Method</h3>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Pay On Receipt</label>
-											</div>
-										</div>
-								
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="checkbox">
-											   <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
-											</div>
-										</div>
-									</div>
-									<p><a  ng-click="order.orderEx()" href="" class="btn btn-primary py-3 px-4">Place an order</a></p>
-								</div>
-								
-	          	</div>
-	          </div>
-          </div> <!-- .col-md-8 -->
-        </div>
-      </div>
-    </section> <!-- .section -->
+    <section class="ftco-section ftco-cart" ng-controller="orderUser">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>&nbsp;</th>
+						        <th>Product List</th>
+						        <th>&nbsp;</th>
+						        <th>Price</th>
+						        <th>Quantity</th>
+						         <th>Date Order</th>
+						          <th>Status</th>
+						        <th>Total</th>
+						      </tr>
+						    </thead>
+						    <tbody>
+						      <tr class="text-center" ng-repeat="orderByUser in orderByUser" >
+						        <td class="product-remove"  >
+						        <a class="btn btn-primary" ng-show="{{orderByUser.order.status == 0 ? 'true': 'false'}}" ng-click="deleteOrder(orderByUser.order.id)"><span class="ion-ios-close p-2" ></span></a>
+						        </td>
+						        
+						        <td class="image-prod"><div class="img" style="background-image:url(images/{{orderByUser.product.img}});"></div></td>
+						        
+						        <td class="product-name">
+						        	<h3>{{orderByUser.product.name}}</h3>
+						        	<p>Far far away, behind the word mountains, far from the countries</p>
+						        </td>
+						        
+						        <td class="price">$ {{orderByUser.product.price}}</td>
+						        
+						        <td class="quantity">
+						        	<div class="input-group mb-3">
+					             	<input type="text" name="quantity" class="quantity form-control input-number" value="{{orderByUser.quantity}}" readonly>
+					          	</div>
+					          </td>
+						         <td class="price"> {{orderByUser.order.createdate}}</td>
+						           <td class="price {{orderByUser.order.status == 0 ? 'text-danger': 'text-success'}}"> {{orderByUser.order.status == 0 ? 'Preparing Goods': 'Delivering'}}</td>
+						        <td class="total">$ {{orderByUser.product.price * orderByUser.quantity}}</td>
+						      </tr><!-- END TR-->
+
+						   
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+			</div>
+		</section>
 
 		<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
       <div class="container py-4">

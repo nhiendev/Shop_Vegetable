@@ -3,6 +3,7 @@ package com.fpoly.Controller_Admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.fpoly.HandleService.MultipleUpload;
 import com.fpoly.Service.ProductService;
 
 @Controller
+@PreAuthorize("hasRole('0')")
 @RequestMapping("/admin")
 public class Controller_Product {
 	
@@ -27,7 +29,7 @@ public class Controller_Product {
 	private ProductService productService;
 	
 	@Autowired
-	private MultipleUpload   upload;
+	private MultipleUpload upload;
 	
 	@Autowired
 	private CategoryDAO daoC;
@@ -51,8 +53,13 @@ public class Controller_Product {
 	
 	@PostMapping("/product-save")
 	public String save(@ModelAttribute("product") Product product,@RequestParam("filename") MultipartFile file) {
-		System.out.println(file.getOriginalFilename());
-		//upload.handleUploadFile(file);
+		if(product !=null && file!=null ) {
+			upload.handleUploadFile(file);
+			product.setImg(upload.imgName);
+			product.setAvialable(true);
+			productService.save(product);
+		}
+		
 		return "redirect:/admin/product-create";
 	}
 

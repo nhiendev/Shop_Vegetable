@@ -2,17 +2,14 @@ package com.fpoly.Controller_User;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@PreAuthorize("isAuthenticated()")
-public class Wishlist {
+@PreAuthorize("hasAnyRole('0','1')")
+public class NotFound {
 	
-	
-	@GetMapping("/wishlist")
-	public String wishlist(Model model) {
-		
-		return "wishlist";
+	@GetMapping("/not-found")
+	public String notFound() {
+		return"404";
 	}
 }

@@ -1,38 +1,5 @@
-var host = "http://localhost:8081/api/product";
 
-const app = angular.module("app", []);
-
-app.controller("ctrl", function($scope, $http) {
-
-	$scope.productHome = [];
-
-	$scope.listImg = function() {
-		let url = `${host}/best-seller`
-		$http.get(url).then(resp => {
-			$scope.productHome = resp.data;
-			console.log('successfully listImg: ', resp)
-		}).catch(error => {
-			console.log('Error listImg: ', error)
-		})
-	}
-
-	$scope.getOneProduct = function(id) {
-		let url = `${host}/${id}`
-		$http.get(url).then(resp => {
-			$scope.productHome = resp.data;
-			console.log('successfully getOneProduct: ', resp)
-		}).catch(error => {
-			console.log('Error getOneProduct: ', error)
-		})
-	}
-
-
-
-
-	$scope.listImg();
-
-});
-
+const app = angular.module("appCheckOut", []);
 
 app.controller("cart", function($scope, $http) {
 
@@ -41,7 +8,7 @@ app.controller("cart", function($scope, $http) {
 
 		// Đẩy dữ liệu vào LocalStore
 		AddLocalStore(id) {
-			let url = `${host}/${id}`;
+			let url = `${hostProduct}/${id}`;
 			let item = this.Product.find(item => item.id == id);
 			if (item) {
 				item.qty++;
@@ -93,7 +60,81 @@ app.controller("cart", function($scope, $http) {
 			let productIndex = this.Product.findIndex(item => item.id == id);
 			this.Product.splice(productIndex, 1);
 			this.saveLocalStore();
+		},
+		clearCart() {
+			this.Product = []
+			this.saveLocalStore();
 		}
 	};
 	$scope.cart.loadFormLocalStorage();
+
+
+	$scope.order = {
+		createDate: new Date(),
+		address: "",
+
+		get orderDetail() {
+			return $scope.cart.Product.map(item => {
+				return {
+					product: { id: item.id },
+					price: item.price,
+					quantity: item.qty
+				}
+			})
+		},
+		purchase() {
+
+
+			var order = angular.copy(this)
+			// dat hang
+			/*$http.post('/api/orders', order).then(res => {
+				alert('dat hang thanh cong')
+			})*/
+			console.clear()
+			console.log(order)
+		},
+
+
+		orderEx() {
+			console.clear();
+			var ListProducts = [];
+			for (var i = 0; i < $scope.cart.Product.length; i++) {
+				var product = $scope.cart.Product[i];
+				var productInfo = {
+					product: product.id,
+					price: product.price,
+					quantity: product.qty
+				};
+
+				ListProducts.push(productInfo);
+			}
+
+			var orr = {
+				address: document.getElementById('address').value,
+				createdate: new Date(),
+				orderdetails: ListProducts
+			};
+
+
+			$http.post('/api/orders', orr).then(res => {
+				alert('dat hang thanh cong')
+					$scope.cart.clearCart();
+					location.href="/order-user"
+			})
+
+			console.log(orr)
+		}
+
+	}
+
+
+	$scope.orderEx = function() {
+
+
+
+
+		console.log(orr)
+
+	}
+
 });

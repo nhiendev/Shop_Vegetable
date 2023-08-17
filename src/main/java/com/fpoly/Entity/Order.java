@@ -16,12 +16,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @SuppressWarnings("serial")
 @Entity
@@ -37,8 +40,8 @@ public class Order implements Serializable{
 	
 	public String address;
 	
-	@Temporal(TemporalType.DATE)
-	private Date createdate = new Date();
+	@DateTimeFormat(style =  "yyyy/MM/dd")
+	private java.sql.Date createdate;
 	
 	private Integer status;
 	
@@ -48,5 +51,5 @@ public class Order implements Serializable{
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-	private List<Order_Detail> order_Details;
+	private List<Order_Detail> orderdetails;
 }

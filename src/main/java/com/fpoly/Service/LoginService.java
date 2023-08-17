@@ -11,5 +11,7 @@ public interface LoginService {
 	
 	<S extends Users> S save(S entity);
 	
-	Boolean Login(Users us);
+	void Login(Users us);
+	
+	void Logout();
 }

@@ -72,7 +72,32 @@ values (N'APPLE',N'product-10.jpg',50, GETDATE(),0,N'They are rich in vitamin C 
 	  (N'Trail mix',N'hatkho1.jpg',120, GETDATE(),0,N'A suitable choice for everyone, a rich source of plant-based nutrition, vitamins, and minerals such as fiber, protein, calcium, iron, copper, magnesium, vitamin K, B6, selenium, phosphorous…',100,'dried')
 
 
+	  -- thống kê bestselling
 
+	  SELECT Products.id, Products.name, Products.img, Products.price, COUNT(OrdersDetails.productID) AS total_ordered
+			 	FROM Orders
+				JOIN OrdersDetails ON Orders.id = OrdersDetails.orderID
+			 	JOIN Products ON OrdersDetails.productID = Products.id
+				 GROUP BY Products.id, Products.name, Products.img, Products.price
+			 		ORDER BY total_ordered DESC;
 
+ -- hàng tồn kho
+ SELECT * FROM Products   where quantity > 0
 
+-- Thống kê theo ngày
 
+select o.id,p.img,p.name,p.price,od.quantity,u.username,o.status,o.createdate 
+				from OrdersDetails od
+				INNER JOIN Orders o ON od.orderId = o.id
+				INNER JOIN Users u ON o.usernameid = u.id
+				INNER JOIN Products p ON  od.productId = p.id
+				 WHERE CONVERT(date, o.createdate) = CONVERT(date, GETDATE())
+
+select * from OrdersDetails
+-- Thống kê số hàng, tiền bán theo ngày
+SELECT Sum(OrdersDetails.quantity) AS SoLuongSanPham, SUM(OrdersDetails.price * OrdersDetails.quantity) AS TongTienBanDuoc
+			FROM OrdersDetails
+			INNER JOIN Orders ON OrdersDetails.orderId = Orders.id
+			WHERE CONVERT(date, Orders.createdate) = CONVERT(date, GETDATE())
+
+select * from categories

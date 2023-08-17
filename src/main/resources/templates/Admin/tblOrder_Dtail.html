@@ -86,7 +86,7 @@
                                            <td th:text="${orderdetail.order.address}"></td>
                                             <td th:text="${orderdetail.order.createdate}"></td>
                                               <td th:text="${orderdetail.quantity} + KG"></td>
-                                             <td class="text-success font-weight-bolder " th:text="${orderdetail.order.status == 0 ? 'Delivering' : 'Pending'}"></td>
+                                             <td class="text-success font-weight-bolder " th:text="${orderdetail.order.status == 0 ? 'Confirm' :'Delivering'}"></td>
                                         </tr>
 
                                     </tbody>

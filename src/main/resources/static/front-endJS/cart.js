@@ -33,6 +33,6 @@ app.controller("cart", function($scope, $http) {
 		$scope.count =  $scope.Product.maps(item => item.qty).reduce((total,qty) => total += qty,0); 
 		return $scope.count;
 	}
-	
-
+		$scope.count();
+$scope.asd('asdasd')
 });

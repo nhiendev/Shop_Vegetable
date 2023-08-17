@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @SuppressWarnings("serial")
 @Entity
@@ -50,4 +51,7 @@ public class Product implements Serializable{
 	@OneToMany(mappedBy = "productid",cascade = CascadeType.ALL)
 	private List<Favorite> favorites;
 	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+	private List<Order_Detail> Order_Detailed;
 }

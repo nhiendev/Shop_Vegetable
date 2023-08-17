@@ -102,23 +102,14 @@ app.controller("cart", function($scope, $http) {
 			let productIndex = this.Product.findIndex(item => item.id == id);
 			this.Product.splice(productIndex, 1);
 			this.saveLocalStore();
+		},
+		clearCart() {
+			this.Product = []
+			this.saveLocalStore();
 		}
 	};
 	$scope.cart.loadFormLocalStorage();
 
-
-
-
-/*	$scope.checkout = function() {
-		let url = '';
-		$http.post(url, item).then(resp => {
-			$scope.items.push(item);
-
-			console.log("Success", resp)
-		}).catch(error => {
-			console.log("Error", error)
-		});
-
-	}*/
+	
 
 });

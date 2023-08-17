@@ -9,6 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class MultipleUpload {
 
+	public String imgName;
+	
+	
+	
+	public MultipleUpload() {
+	}
+
+
+
 	public File handleUploadFile( MultipartFile uploadFile) {
 		String folderPath = "F:\\JAVA_6_API\\Vegetables_ASM_Java6\\src\\main\\resources\\static\\images";
 		File myUploadFile = new File(folderPath);
@@ -22,6 +31,7 @@ public class MultipleUpload {
 		try {
 			String uuid = UUID.randomUUID().toString();
 			String fileName = uuid + "_" + uploadFile.getOriginalFilename();
+			this.imgName = fileName;
 			 saveFile = new File(myUploadFile, fileName);
 			uploadFile.transferTo(saveFile);
 			
@@ -38,4 +48,6 @@ public class MultipleUpload {
 		}
 		return saveFile;
 	}
+	
+	
 }

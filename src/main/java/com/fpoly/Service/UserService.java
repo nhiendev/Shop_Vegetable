@@ -15,4 +15,6 @@ public interface UserService {
 	Users save(Users us);
 	
 	void delete(Integer us);
+	
+	Users getUserCookie();
 }
