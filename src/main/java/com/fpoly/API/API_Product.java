@@ -7,16 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fpoly.DAO.ProductDAO;
 import com.fpoly.Entity.Category;
-import com.fpoly.Entity.Item;
 import com.fpoly.Entity.Product;
-import com.fpoly.Service.CartService;
 
 @CrossOrigin("*")
 @RestController
@@ -25,8 +20,8 @@ public class API_Product {
 	@Autowired
 	ProductDAO dao;
 	
-	@Autowired
-	CartService cartService;
+//	@Autowired
+//	CartService cartService;
 	
 	@GetMapping("/api/product")
 	public ResponseEntity<List<Product>> getAll() {
@@ -50,14 +45,14 @@ public class API_Product {
 		return ResponseEntity.ok(dao.findByCategoryId(category));
 	}
 	
-	@GetMapping("/api/product/addtocart/{id}")
-	public Item cart(@PathVariable("id") Integer id){
-		return cartService.addCart(id);
-	}
-	
-	@GetMapping("/api/product/addtocart/count")
-	public int cartCount(){
-		return cartService.getCount();
-	}
+//	@GetMapping("/api/product/addtocart/{id}")
+//	public OrderDTO cart(@PathVariable("id") Integer id){
+//		return cartService.addCart(id);
+//	}
+//	
+//	@GetMapping("/api/product/addtocart/count")
+//	public int cartCount(){
+//		return cartService.getCount();
+//	}
 }
 

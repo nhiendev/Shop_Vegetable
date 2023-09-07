@@ -39,7 +39,7 @@ public class OrderService {
 		order.setStatus(0); // 0 = order ---  1  = admin xác nhận đơn hàng
 		
 		dao.save(order);
-		System.out.println(order.getId());
+		
 		TypeReference<List<OrderDetailDTO>> type  = new TypeReference<List<OrderDetailDTO>>() {
 		};
 		

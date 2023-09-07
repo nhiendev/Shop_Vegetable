@@ -109,32 +109,34 @@ app.controller("cart", function($scope, $http) {
 				ListProducts.push(productInfo);
 			}
 
+			let paymentType = parseInt(document.querySelector('input[name="payment"]:checked').value)
+			console.log(paymentType)
 			var orr = {
 				address: document.getElementById('address').value,
 				createdate: new Date(),
-				orderdetails: ListProducts
+				orderdetails: ListProducts,
 			};
 
-
-			$http.post('/api/orders', orr).then(res => {
-				alert('dat hang thanh cong')
+			if (paymentType == 0) {
+				$http.post('/api/orders', orr).then(res => {
+					alert('dat hang thanh cong')
 					$scope.cart.clearCart();
-					location.href="/order-user"
-			})
+					location.href = "/order-user"
+				})
+			}
+			else{
+				$http.post('/api/orders-VNpay',orr).then(res => {
+					console.log(res)
+					$scope.cart.clearCart();
+					location.href = res.data.url
+				})
+			}
+				
 
 			console.log(orr)
 		}
 
 	}
 
-
-	$scope.orderEx = function() {
-
-
-
-
-		console.log(orr)
-
-	}
 
 });
